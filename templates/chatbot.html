@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot - Plant Info</title>
+    <link rel="stylesheet" href="../static/css/style-chatbot.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="/index" class="nav-link">Identify Plant</a>
+        <a href="/chatbot" class="nav-link active">Chatbot</a>
+    </nav>
+
+    <div class="chat-screen">
+        <div class="chat-header fade-in">
+            <h2>Plant Details Chatbot 🌱</h2>
+            <p id="plantGreeting" class="instruction">You are chatting about: <span id="plantName"></span></p>
+        </div>
+        <div class="chat-box" id="chatBox">
+            <div class="messages" id="messages">
+                <div class="plant-details-container">
+                    <div class="plant-details">
+                        <div class="properties">
+                            {% for property in properties %}
+                            <div class="property-item" display="none">{{ property }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-input-container">
+                <input type="text" id="userMessage" placeholder="Ask about the plant..." class="input-field">
+                <button id="sendButton" class="send-button">Send</button>
+            </div>
+        </div>
+
+        <script src="../static/js/script.js"></script> <!-- Include your JS file here -->
+</body>
+
+</html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Herbal Plant Detection</title>
+    <link rel="stylesheet" href="../static/css/st.css">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-brand">Herbal Plant Detection</div>
+    </nav>
+
+    <div class="container">
+        <!-- Left Side: Carousel -->
+        <div class="left-section">
+            <div class="carousel" id="carousel">
+                <!-- Local images will be added here by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Right Side: Login and Signup -->
+        <div class="right-section">
+            <div id="form-container">
+                <h2 id="form-title">Login</h2>
+
+                <!-- Login Form -->
+                <div id="login-form">
+                    <input type="text" id="login-id" placeholder="Email">
+                    <input type="password" id="login-password" placeholder="Password">
+                    <div id="login-error" class="error-message" style="display: none;">Please enter valid email and
+                        password.</div>
+                    <button id="login-btn" disabled>Login</button>
+                    <div class="toggle-signup">
+                        <span>Or </span><a id="signup-link" href="#">Sign up</a>
+                    </div>
+                </div>
+
+                <!-- Signup Form -->
+                <div id="signup-form" style="display: none;">
+                    <input type="text" id="signup-id" placeholder="Email">
+                    <input type="password" id="signup-password" placeholder="Password">
+                    <div id="signup-error" class="error-message" style="display: none;">Please enter a valid email and
+                        password.</div>
+                    <div id="password-note" class="note-message" style="display: none;">
+                        Password must be at least 8 characters long, contain a letter, a number, and a special symbol.
+                    </div>
+                    <button id="signup-btn" disabled>Create Account</button>
+
+                    <div id="otp-section" style="display: none;">
+                        <button id="send-otp-btn">Send OTP</button>
+                        <input type="text" id="otp-input" placeholder="Enter OTP (6 digits)" maxlength="6">
+                        <button id="verify-otp-btn">Verify OTP</button>
+                        <div id="otp-error" class="error-message">Invalid OTP. Please try again.
+                        </div>
+                    </div>
+
+                    <div class="toggle-login">
+                        <span>Already have an account? </span><a id="login-link" href="#">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentImageIndex = 0;
+        const carouselContainer = document.getElementById('carousel');
+
+        // Local image names; update paths if images are in a subfolder
+        const images = ['../static/images/one.jpg', '../static/images/two.jpg', '../static/images/three.jpg'];
+
+        // Function to load local images into the carousel
+        function loadCarouselImages() {
+            images.forEach((src, index) => {
+                const img = document.createElement('img');
+                img.src = src;
+                img.classList.add('carousel-image');
+                if (index === 0) img.classList.add('active'); // Set first image as active
+                carouselContainer.appendChild(img);
+            });
+        }
+
+        // Function to switch images in the carousel
+        function showNextImage() {
+            const images = document.querySelectorAll('.carousel-image');
+            images[currentImageIndex].classList.remove('active');
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            images[currentImageIndex].classList.add('active');
+        }
+
+        // Load images after DOM is fully loaded
+        document.addEventListener("DOMContentLoaded", () => {
+            loadCarouselImages();
+            setInterval(showNextImage, 3000);
+        });
+
+
+        // Email validation function
+        function validateEmail(email) {
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailPattern.test(email);
+        }
+
+        // Password validation function
+        function validatePassword(password) {
+            const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+            return passwordPattern.test(password);
+        }
+
+        // Function to toggle button state and show error messages
+        function toggleButtonAndError(button, email, password, errorElement, noteElement) {
+            if (email === "" || password === "") {
+                button.disabled = true;
+                errorElement.style.display = 'block';
+                errorElement.textContent = 'No input provided. Please fill out all fields.';
+                if (noteElement) noteElement.style.display = 'none';
+            } else if (!validateEmail(email) || !validatePassword(password)) {
+                button.disabled = true;
+                errorElement.style.display = 'block';
+                errorElement.textContent = 'Please enter a valid email and password.';
+                if (noteElement) noteElement.style.display = 'block';
+            } else {
+                button.disabled = false;
+                errorElement.style.display = 'none';
+                if (noteElement) noteElement.style.display = 'none';
+            }
+        }
+
+        // Login form validation
+        const loginEmailInput = document.getElementById('login-id');
+        const loginPasswordInput = document.getElementById('login-password');
+        const loginButton = document.getElementById('login-btn');
+        const loginError = document.getElementById('login-error');
+
+        loginEmailInput.addEventListener('input', () => {
+            toggleButtonAndError(loginButton, loginEmailInput.value, loginPasswordInput.value, loginError);
+        });
+
+        loginPasswordInput.addEventListener('input', () => {
+            toggleButtonAndError(loginButton, loginEmailInput.value, loginPasswordInput.value, loginError);
+        });
+
+        loginButton.addEventListener('click', () => {
+            const email = loginEmailInput.value;
+            const password = loginPasswordInput.value;
+
+            if (validateEmail(email) && validatePassword(password)) {
+                // Send AJAX request to Flask backend
+                fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email: email, password: password }),
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.href = '/index'; // Redirect to plant.html
+                        } else {
+                            return response.json().then(data => {
+                                loginError.style.display = 'block';
+                                loginError.textContent = data.error || 'Login failed.';
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error during login:', error);
+                        loginError.style.display = 'block';
+                        loginError.textContent = 'An unexpected error occurred.';
+                    });
+            }
+        });
+
+        // Signup form validation
+        const signupEmailInput = document.getElementById('signup-id');
+        const signupPasswordInput = document.getElementById('signup-password');
+        const signupButton = document.getElementById('signup-btn');
+        const signupError = document.getElementById('signup-error');
+        const passwordNote = document.getElementById('password-note');
+        const otpSection = document.getElementById('otp-section');
+        const sendOtpBtn = document.getElementById('send-otp-btn');
+        const otpInput = document.getElementById('otp-input');
+        const verifyOtpBtn = document.getElementById('verify-otp-btn');
+        const otpError = document.getElementById('otp-error');
+
+        signupEmailInput.addEventListener('input', () => {
+            toggleButtonAndError(signupButton, signupEmailInput.value, signupPasswordInput.value, signupError, passwordNote);
+        });
+
+        signupPasswordInput.addEventListener('input', () => {
+            toggleButtonAndError(signupButton, signupEmailInput.value, signupPasswordInput.value, signupError, passwordNote);
+        });
+
+        signupButton.addEventListener('click', () => {
+            const email = signupEmailInput.value;
+            const password = signupPasswordInput.value;
+
+            if (validateEmail(email) && validatePassword(password)) {
+                // Request OTP first
+                fetch('/send_otp', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email: email }),
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            otpSection.style.display = 'block';
+                            signupButton.disabled = true; // Disable signup button after OTP request
+                            sendOtpBtn.style.display = 'none';
+                        } else {
+                            return response.json().then(data => {
+                                signupError.style.display = 'block';
+                                signupError.textContent = data.error || 'Failed to send OTP.';
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error during OTP request:', error);
+                        signupError.style.display = 'block';
+                        signupError.textContent = 'An unexpected error occurred while sending OTP.';
+                    });
+            }
+        });
+
+        // OTP verification
+        verifyOtpBtn.addEventListener('click', () => {
+            const otp = otpInput.value;
+            const email = signupEmailInput.value;
+
+            fetch('/verify_otp', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email: email, otp: otp }),
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // OTP verified, proceed with signup
+                        const password = signupPasswordInput.value;
+                        fetch('/signup', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ email: email, password: password }),
+                        })
+                            .then(response => {
+                                if (response.ok) {
+                                    window.location.href = '/index'; // Redirect to plant.html
+                                } else {
+                                    return response.json().then(data => {
+                                        signupError.style.display = 'block';
+                                        signupError.textContent = data.error || 'Signup failed.';
+                                    });
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error during signup:', error);
+                                signupError.style.display = 'block';
+                                signupError.textContent = 'An unexpected error occurred during signup.';
+                            });
+                    } else {
+                        otpError.style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error during OTP verification:', error);
+                    otpError.style.display = 'block';
+                });
+        });
+
+        // Toggle between login and signup forms
+        document.getElementById('signup-link').addEventListener('click', () => {
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('signup-form').style.display = 'block';
+            document.getElementById('form-title').textContent = 'Sign Up';
+        });
+
+        document.getElementById('login-link').addEventListener('click', () => {
+            document.getElementById('signup-form').style.display = 'none';
+            document.getElementById('login-form').style.display = 'block';
+            document.getElementById('form-title').textContent = 'Login';
+        });
+
+    </script>
+</body>
+
+</html>

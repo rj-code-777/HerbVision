@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Identify Your Plant 🌿</title>
+    <link rel="stylesheet" href="../static/css/styles.css">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="/index" class="nav-link active">Identify Plant</a>
+        <a href="/chatbot" class="nav-link">Chatbot</a>
+    </nav>
+
+    <!-- Full-Screen Upload Section -->
+    <div class="upload-screen">
+        <div class="upload-card fade-in slide-up">
+            <h1>Identify Your Plant 🌱</h1>
+            <p class="instruction">Upload an image of the plant, and we’ll identify it for you!</p>
+            <input type="file" id="plantImage" accept="image/*" class="upload-input">
+            <p id="identificationResult" class="result-text"></p>
+        </div>
+    </div>
+
+    <script src="../static/js/script.js"></script>
+</body>
+
+</html>
