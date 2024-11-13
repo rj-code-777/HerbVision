@@ -1,0 +1,231 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+/* Body Styling */
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    font-family: 'Roboto', sans-serif;
+    background-color: #e6f5f1;
+    color: #333;
+}
+
+/* Navbar */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #1a6f4e;
+    display: flex;
+    justify-content: center;
+    padding: 15px 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+}
+
+.nav-link {
+    color: #ffffff;
+    text-decoration: none;
+    margin: 0 20px;
+    font-size: 1.1em;
+    padding: 8px 12px;
+    border-radius: 6px;
+}
+
+.nav-link.active,
+.nav-link:hover {
+    background-color: #34c759;
+}
+
+/* Chat Screen Layout */
+.chat-screen {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding-top: 70px;
+    background-color: #f0f6f7;
+    overflow: hidden;
+}
+
+/* Chat Header */
+.chat-header {
+    text-align: center;
+    padding: 20px;
+    background-color: #1a6f4e;
+    color: #ffffff;
+    border-bottom: 2px solid #ddd;
+}
+
+.chat-header h2 {
+    margin-bottom: 5px;
+    font-size: 1.8em;
+}
+
+.instruction {
+    color: #ffffff;
+    font-size: 1em;
+}
+
+/* Chat Box (Messages Area) */
+.chat-box {
+    flex: 1;
+    /* Allows chat box to grow and take available space */
+    padding: 20px;
+    overflow-y: auto;
+    /* Enables scrolling when messages exceed box height */
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Message Styling */
+.message {
+    padding: 12px;
+    border-radius: 20px;
+    max-width: 75%;
+    font-size: 1em;
+    background-color: #ffffff;
+    color: #333;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.user-message {
+    align-self: flex-end;
+    background-color: #e7e7e7;
+    color: #333;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 80%;
+    animation: slideInRight 0.5s ease;
+}
+
+.bot-message {
+    align-self: flex-start;
+    background-color: #d5d5d5;
+    color: #333;
+    padding: 10px;
+    border-radius: 5px;
+    max-width: 80%;
+    animation: slideInLeft 0.5s ease;
+}
+
+/* Plant Details Container */
+.plant-details-container {
+    width: 70%;
+    margin: 10px auto;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    background-color: #f0f8f5;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.plant-details .properties {
+    font-size: 14px;
+    color: #555;
+    margin-top: 5px;
+    line-height: 1.6;
+}
+
+.plant-details .property-item {
+    margin-top: 5px;
+    font-size: 16px;
+    color: #2e7d32;
+    display: block;
+    padding: 2px 0;
+}
+
+/* Chat Input (Fixed at Bottom) */
+.chat-input-container {
+    display: flex;
+    padding: 12px 20px;
+    background-color: #ffffff;
+    border-top: 1px solid #ddd;
+}
+
+.input-field {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1.1em;
+    outline: none;
+}
+
+.send-button {
+    padding: 12px 20px;
+    border: none;
+    background-color: #34c759;
+    color: white;
+    font-weight: bold;
+    font-size: 1em;
+    margin-left: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.send-button:hover {
+    background-color: #28a745;
+}
+
+/* Animations */
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .chat-screen {
+        padding: 5px;
+    }
+
+    .plant-details-container {
+        width: 90%;
+        margin: 10px auto;
+    }
+
+    .chat-box {
+        padding: 12px;
+    }
+
+    .input-field {
+        padding: 10px;
+    }
+
+    .send-button {
+        padding: 10px 15px;
+    }
+}

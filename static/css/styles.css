@@ -1,0 +1,129 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+/* Body Styling */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #e6f5f1;
+    overflow-x: hidden;
+}
+
+/* Navbar */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #1a6f4e;
+    display: flex;
+    justify-content: center;
+    padding: 15px 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+}
+
+.nav-link {
+    color: #ffffff;
+    text-decoration: none;
+    margin: 0 20px;
+    font-size: 1.1em;
+    padding: 8px 12px;
+    border-radius: 6px;
+}
+
+.nav-link.active,
+.nav-link:hover {
+    background-color: #34c759;
+}
+
+/* Full-Screen Upload Section */
+.upload-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    padding-top: 70px;
+    padding-bottom: 60px;
+    background-color: #f0f6f7;
+}
+
+/* Upload Card */
+.upload-card {
+    background-color: #ffffff;
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    max-width: 400px;
+    width: 80%;
+    text-align: center;
+    animation: slideUp 1s ease;
+}
+
+.upload-card h1 {
+    color: #1a6f4e;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.instruction {
+    color: #555;
+    margin-bottom: 20px;
+    font-size: 1em;
+}
+
+/* Upload Input */
+.upload-input {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: 2px dashed #34c759;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #1a6f4e;
+    font-size: 1em;
+    text-align: center;
+}
+
+.upload-input:hover {
+    background-color: #f4fbf9;
+    border-color: #28a745;
+}
+
+.result-text {
+    margin-top: 20px;
+    font-weight: bold;
+    color: #1a6f4e;
+    font-size: 1.1em;
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+}
+
+/* Animations */
+.fade-in {
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+}
+
+.slide-up {
+    transform: translateY(30px);
+    opacity: 0;
+    animation: slideUp 1s ease forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
