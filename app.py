@@ -26,7 +26,7 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Load model directly
 app.config['UPLOAD_FOLDER'] = 'uploads'
-app.secret_key = 'pranavojha12345671234567'
+app.secret_key = 'Your api key'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=10)
 
 
@@ -48,8 +48,8 @@ def send_otp():
     # Send OTP via email
     try:
         # Replace these with your actual email settings
-        sender_email = "pranavojha210018@acropolis.in"
-        sender_password = "Pr@1231467"
+        sender_email = "senders email id"
+        sender_password = "password"
         with smtplib.SMTP('smtp.gmail.com', 587) as smtp:
             smtp.starttls()
             smtp.login(sender_email, sender_password)
@@ -189,7 +189,7 @@ def login():
 # Endpoint 3: Chatbot Endpoint
 
 
-api_key = "AIzaSyD0wufXX86_GgQP95pA7FwgY3n3bLN42Fo"
+api_key = "Chatbot api key"
 
 
 def generate_text(prompt):
